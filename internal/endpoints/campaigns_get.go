@@ -1,10 +1,14 @@
 package endpoints
 
-import (
-	"net/http"
-)
+//import (
+	//"net/http"
 
-func (h *Handler) CampaignGet(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
-	//campaigns, err := h.CampaignService.Repository.Get()
-	return nil, 200, nil
-}
+	//"github.com/go-chi/chi/v5"
+//)
+
+// GET /campaigns/{id}
+//func (h *Handler) CampaignGet(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
+	//id := chi.URLParam(r, "id")
+	//campaign, err := h.CampaignService.GetBy(id)
+	//return campaign, 200, err
+//}
