@@ -7,6 +7,7 @@ import (
 
 type Service interface {
 	Create(newCampaign contract.NewCampaign) (string, error)
+	GetBy(id string) (*contract.CampaignResponse, error)
 }
 type ServiceImp struct {
 	Repository Repository
