@@ -1,10 +1,10 @@
 POST http://localhost:3000/campaigns
 
 {
-    "name": "Memphis Depay",
+    "name": "Vinicius JR",
     "content": "change passwd",
     "emails": ["gabriel@teste.com"]
 }
 
 ###
-GET  http://localhost:3000/campaigns
+GET  http://localhost:3000/campaigns/d73kcq0bgs4gg11vt270
