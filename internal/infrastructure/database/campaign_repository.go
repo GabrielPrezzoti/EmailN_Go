@@ -28,11 +28,16 @@ func (c *CampaignRepository) Get() ([]campaign.Campaign, error) {
 
 func (c *CampaignRepository) GetBy(id string) (*campaign.Campaign, error) {
 	var campaign campaign.Campaign
-	tx := c.Db.First(&campaign, "id = ?", id)
+	tx := c.Db.Preload("Contacts").First(&campaign, "id = ?", id)
 	return &campaign, tx.Error
 }
 
 func (c *CampaignRepository) Delete(campaign *campaign.Campaign) error {
+
+	for i, _ := range campaign.Contacts {
+		c.Db.Delete(campaign.Contacts[i])
+	}
+
 	tx := c.Db.Delete(campaign)
 	return tx.Error
 }
