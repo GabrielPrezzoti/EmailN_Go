@@ -56,8 +56,9 @@ func (s *ServiceImp) Cancel(id string) error {
 	}
 
 	campaign.Cancel()
-	err = s.Repository.Update(campaign)
+	err = s.Repository.Save(campaign)
 	if err != nil {
 		return internalerrors.ErrInternal
 	}
+	return nil
 }
