@@ -20,3 +20,9 @@ POST http://localhost:8080/realms/GoProvider/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id=emailn&client_secret=YCQXynRhyefB9R98E9qZHxXkZJZPnk8q&grant_type=client_credentials
+
+###
+POST http://localhost:8080/realms/GoProvider/protocol/openid-connect/token 
+Content-Type: application/x-www-form-urlencoded
+
+client_id=emailn_users&username=gabrielbprezzoti@outlook.com&password=123456&grant_type=password
