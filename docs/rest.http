@@ -14,3 +14,9 @@ PATCH http://localhost:3000/campaigns/cancel/d73kcq0bgs4gg11vt270
 
 ###
 DELETE  http://localhost:3000/campaigns/delete/d748fhgbgs4j2n3qdu0g
+
+###
+POST http://localhost:8080/realms/GoProvider/protocol/openid-connect/token 
+Content-Type: application/x-www-form-urlencoded
+
+client_id=emailn&client_secret=YCQXynRhyefB9R98E9qZHxXkZJZPnk8q&grant_type=client_credentials
