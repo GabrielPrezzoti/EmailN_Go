@@ -10,6 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"gorm.io/gorm"
 )
 
 var (
@@ -97,4 +98,58 @@ func Test_GetById_ReturnErrorWhenSomethingWrongExist(t *testing.T) {
 	_, err := service.GetBy(campaign.ID)
 
 	assert.Equal(internalerrors.ErrInternal.Error(), err.Error())
+}
+
+func Test_Delete_ReturnRecordNotFound_When_Campaign_Dont_Exist(t *testing.T) {
+	assert := assert.New(t)
+	campaignIdInvalid := "invalid"
+	repositoryMock := new(internalmock.CampaignRepositoryMock)
+	repositoryMock.On("GetBy", mock.Anything).Return(nil, gorm.ErrRecordNotFound)
+	service.Repository = repositoryMock
+
+	err := service.Delete(campaignIdInvalid)
+
+	assert.Equal(err.Error(), gorm.ErrRecordNotFound.Error())
+}
+
+func Test_Delete_ReturnStatusInvalid_when_campaign_has_status_not_equals_pendind(t *testing.T) {
+	assert := assert.New(t)
+	campaign := &campaign.Campaign{ID: "1", Status: campaign.Started}
+	repositoryMock := new(internalmock.CampaignRepositoryMock)
+	repositoryMock.On("GetBy", mock.Anything).Return(campaign, nil)
+	service.Repository = repositoryMock
+
+	err := service.Delete(campaign.ID)
+
+	assert.Equal("Campaign status invalid", err.Error())
+}
+
+func Test_Delete_ReturnInternalError_when_delete_has_problem(t *testing.T) {
+	assert := assert.New(t)
+	campaignFound, _ := campaign.NewCampaign("Test 1", "Body !", []string{"teste@email.com"})
+	repositoryMock := new(internalmock.CampaignRepositoryMock)
+	repositoryMock.On("GetBy", mock.Anything).Return(campaignFound, nil)
+	repositoryMock.On("Delete", mock.MatchedBy(func(campaign *campaign.Campaign) bool {
+		return campaignFound == campaign
+	})).Return(errors.New("error to delete campaign"))
+	service.Repository = repositoryMock
+
+	err := service.Delete(campaignFound.ID)
+
+	assert.Equal(internalerrors.ErrInternal.Error(), err.Error())
+}
+
+func Test_Delete_ReturnNil_when_delete_has_success(t *testing.T) {
+	assert := assert.New(t)
+	campaignFound, _ := campaign.NewCampaign("Test 1", "Body !", []string{"teste@email.com"})
+	repositoryMock := new(internalmock.CampaignRepositoryMock)
+	repositoryMock.On("GetBy", mock.Anything).Return(campaignFound, nil)
+	repositoryMock.On("Delete", mock.MatchedBy(func(campaign *campaign.Campaign) bool {
+		return campaignFound == campaign
+	})).Return(nil)
+	service.Repository = repositoryMock
+
+	err := service.Delete(campaignFound.ID)
+
+	assert.Nil(err)
 }
