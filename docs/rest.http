@@ -1,5 +1,12 @@
-POST http://localhost:3000/campaigns
-Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJla01LeTg2U3V0QWMxTHJwRnBmT3dON0FoUkFJRWlOV3pIamloaXp0NHVzIn0.eyJleHAiOjE3NzQ5MTAxNzEsImlhdCI6MTc3NDkwOTg3MSwianRpIjoiNGI1YjNlNDktNDA0NS00MmYzLTgyOGQtZTVmNzU5NjNiMmQ0IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9Hb1Byb3ZpZGVyIiwiYXVkIjoiZW1haWxuIiwic3ViIjoiMzA1YTcyYTgtNGE3Zi00M2E2LTg4N2YtMzMxMmM1MDIyMDEwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZW1haWxuIiwic2Vzc2lvbl9zdGF0ZSI6IjU4NGMxN2Q4LTNjZjUtNDQ1My1hMmYzLWUwOWMxN2E2NjExMSIsInNjb3BlIjoicHJvZmlsZSIsInNpZCI6IjU4NGMxN2Q4LTNjZjUtNDQ1My1hMmYzLWUwOWMxN2E2NjExMSIsImdlbmRlciI6Im1hc2N1bGluZSIsIm5hbWUiOiJHYWJyaWVsIFByZXp6b3RpIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZ2FicmllbGJwcmV6em90aUBvdXRsb29rLmNvbSIsImpvYiI6IkRldk9wcyIsImdpdmVuX25hbWUiOiJHYWJyaWVsIiwiZmFtaWx5X25hbWUiOiJQcmV6em90aSJ9.Wkr3uPR2MqWLfOsnBMYbpKnc5CdwLxwrIr5yhjb-9ImaI4ojQyPNoqiosLRx-iZEOG-jaM_lKpa9s_wLRqKbfnZ_CmkvhvCjGgRPvPgh0r5E3ti8qV9VNF14JeKcK-KOmvNpEFyeYO6jK8L89OK14OiJgI7PxCTSkPgNnFtmkQHEY8bRhNqmnBQ5OPXq8OgtndQLs-cczxFrwBISW9zSynzRey0W7MVParFc4jWTE7dXJe0Yb5SfRWXyc3UDOi0w1wnYDLM2qKcp5dxuc8N0RawMxVzkr_SMV69WFi5OX87SJ-MWTD345K4nPvLwFnxkYmuhd9rZZP5ZWyrZpp93Ng
+@url = http://localhost:3000
+@id_provider = http://localhost:8080
+
+###
+GET {{url}}/ping
+
+###
+POST {{url}}/campaigns
+Authorization: Bearer {{access_token}}
 
 {
     "name": "Vinicius JR",
@@ -8,16 +15,23 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJla01LeT
 }
 
 ###
-GET  http://localhost:3000/campaigns/d73lnd0bgs4i8a6lk3pa
+GET  {{url}}/campaigns/d73lnd0bgs4i8a6lk3pa
+Authorization: Bearer {{access_token}}
 
 ###
-PATCH http://localhost:3000/campaigns/cancel/d73kcq0bgs4gg11vt270
+PATCH {{url}}/campaigns/cancel/d73kcq0bgs4gg11vt270
+Authorization: Bearer {{access_token}}
 
 ###
-DELETE  http://localhost:3000/campaigns/delete/d748fhgbgs4j2n3qdu0g
+DELETE  {{url}}/campaigns/delete/d748fhgbgs4j2n3qdu0g
+Authorization: Bearer {{access_token}}
 
 ###
-POST http://localhost:8080/realms/GoProvider/protocol/openid-connect/token 
+# @name token
+POST {{id_provider}}/realms/GoProvider/protocol/openid-connect/token 
 Content-Type: application/x-www-form-urlencoded
 
 client_id=emailn&username=gabrielbprezzoti@outlook.com&password=123456&grant_type=password
+
+###
+@access_token = {{token.response.body.access_token}}
