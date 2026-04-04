@@ -31,6 +31,10 @@ type Campaign struct {
 	CreatedBy string    `validate:"email" gorm:"size:80"`
 }
 
+func (c *Campaign) Done() {
+	c.Status = Done
+}
+
 func (c *Campaign) Cancel() {
 	c.Status = Canceled
 }
