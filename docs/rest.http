@@ -1,34 +1,42 @@
 @url = http://localhost:3000
-@id_provider = http://localhost:8080
+@identity_provider = http://localhost:8080
 
 ###
+
 GET {{url}}/ping
 
 ###
-POST {{url}}/campaigns
+# @name campaign_create
+POST  {{url}}/campaigns
 Authorization: Bearer {{access_token}}
 
 {
-    "name": "Vinicius JR",
-    "content": "change passwd",
-    "emails": ["gabriel@teste.com","gabriel1@teste.com","gabriel2@teste.com"]
+    "Name": "Teste!",
+    "Content": "Hello!",
+	"emails":  ["gabrielbprezzoti@outlook.com","teste@teste.com", "teste1@teste.com", "teste2@teste.com", "teste3@teste.com"]
 }
 
 ###
-GET  {{url}}/campaigns/d73lnd0bgs4i8a6lk3pa
+@campaign_id = {{campaign_create.response.body.id}}
+
+###
+
+GET {{url}}/campaigns/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
-PATCH {{url}}/campaigns/cancel/d73kcq0bgs4gg11vt270
+
+PATCH {{url}}/campaigns/start/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
-DELETE  {{url}}/campaigns/delete/d748fhgbgs4j2n3qdu0g
+
+DELETE {{url}}/campaigns/delete/{{campaign_id}}
 Authorization: Bearer {{access_token}}
 
 ###
 # @name token
-POST {{id_provider}}/realms/GoProvider/protocol/openid-connect/token 
+POST {{identity_provider}}/realms/GoProvider/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id=emailn&username=gabrielbprezzoti@outlook.com&password=123456&grant_type=password
