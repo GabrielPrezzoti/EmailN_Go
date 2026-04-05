@@ -1,40 +1,25 @@
 package endpoints
 
 import (
-	"bytes"
-	"context"
 	"emailn/internal/contract"
-	internalmock "emailn/internal/test/internal-mock"
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"net/http/httptest"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
-func setup(body contract.NewCampaign, createdByExpected string) (*http.Request, *httptest.ResponseRecorder) {
-	var buf bytes.Buffer
-	json.NewEncoder(&buf).Encode(body)
-	req, _ := http.NewRequest("POST", "/", &buf)
-	ctx := context.WithValue(req.Context(), "email", createdByExpected)
-	req = req.WithContext(ctx)
-	rr := httptest.NewRecorder()
-
-	return req, rr
-}
-
-func Test_CampaignPost_should_save_new_campaing(t *testing.T) {
-	assert := assert.New(t)
-	createdByExpected := "teste1@gmail.com"
-	body := contract.NewCampaign{
+var (
+	createdByExpected = "teste1@gmail.com"
+	body              = contract.NewCampaign{
 		Name:    "test",
 		Content: "Hello world",
 		Emails:  []string{"teste@gmail.com"},
 	}
-	service := new(internalmock.CampaignServiceMock)
+)
+
+func Test_CampaignPost_201(t *testing.T) {
+	setUp()
 	service.On("Create", mock.MatchedBy(func(request contract.NewCampaign) bool {
 		if request.Name == body.Name &&
 			request.Content == body.Content &&
@@ -44,29 +29,23 @@ func Test_CampaignPost_should_save_new_campaing(t *testing.T) {
 			return false
 		}
 	})).Return("34x", nil)
-	handler := Handler{CampaignService: service}
-	req, rr := setup(body, createdByExpected)
+	req, rr := newHttpTest("POST", "/", body)
+	req = addContext(req, "email", createdByExpected)
 
 	_, status, err := handler.CampaignPost(rr, req)
 
-	assert.Equal(201, status)
-	assert.Nil(err)
+	assert.Equal(t, 201, status)
+	assert.Nil(t, err)
 }
 
-func Test_CampaignPost_should_inform_error_when_exist(t *testing.T) {
-	assert := assert.New(t)
-	body := contract.NewCampaign{
-		Name:    "test",
-		Content: "Hello world",
-		Emails:  []string{"teste@gmail.com"},
-	}
-	service := new(internalmock.CampaignServiceMock)
+func Test_CampaignPost_Err(t *testing.T) {
+	setUp()
 	service.On("Create", mock.Anything).Return("", fmt.Errorf("error"))
-	handler := Handler{CampaignService: service}
 
-	req, rr := setup(body, "teste@gmail.com")
+	req, rr := newHttpTest("POST", "/", body)
+	req = addContext(req, "email", createdByExpected)
 
 	_, _, err := handler.CampaignPost(rr, req)
 
-	assert.NotNil(err)
+	assert.NotNil(t, err)
 }
