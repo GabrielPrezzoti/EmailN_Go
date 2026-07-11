@@ -425,7 +425,7 @@ echo "Campanha iniciada! Status pode ser verificado no banco de dados"
 <div align="center">
 
 **Feito por [Gabriel Prezzoti](https://github.com/GabrielPrezzoti)/**
-**[Gabriel Prezzoti](https://www.linkedin.com/in/gabriel-barros-prezzoti/)**
+**[Linkedin](https://www.linkedin.com/in/gabriel-barros-prezzoti/)**
 
 
 [Voltar ao topo](#-emailn---email-campaign-management-system)
