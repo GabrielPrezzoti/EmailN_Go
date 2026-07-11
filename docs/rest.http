@@ -3,7 +3,6 @@
 
 ###
 
-GET {{url}}/ping
 
 ###
 # @name campaign_create
