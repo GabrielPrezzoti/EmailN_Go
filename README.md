@@ -1,4 +1,4 @@
-# 📧 EmailN - Email Campaign Management System
+# EmailN - Email Campaign Management System
 
 <div align="center">
 
@@ -15,55 +15,55 @@
 
 ---
 
-## 🎯 Visão Geral
+## Visão Geral
 
 **EmailN** é uma aplicação de backend desenvolvida em **Go** que oferece uma solução completa para gerenciar campanhas de email. Com arquitetura limpa, autenticação robusta e processamento assíncrono, o sistema permite criar, monitorar e executar campanhas de email em massa com eficiência e confiabilidade.
 
 ### Por que EmailN?
 
-- ⚡ **Alta Performance**: Desenvolvido em Go para máxima velocidade e eficiência
-- 🔒 **Segurança em Primeiro Lugar**: Autenticação JWT e validação rigorosa de dados
-- 📦 **Arquitetura Escalável**: Clean Architecture e padrões SOLID
-- 🧪 **Qualidade Garantida**: Testes unitários abrangentes e bem estruturados
-- 🔄 **Processamento Assíncrono**: Worker dedicado para envio paralelo de emails
-- 📊 **Monitoramento em Tempo Real**: Rastreamento completo do status das campanhas
+- **Alta Performance**: Desenvolvido em Go para máxima velocidade e eficiência
+- **Segurança em Primeiro Lugar**: Autenticação JWT e validação rigorosa de dados
+- **Arquitetura Escalável**: Clean Architecture e padrões SOLID
+- **Qualidade Garantida**: Testes unitários abrangentes e bem estruturados
+- **Processamento Assíncrono**: Worker dedicado para envio paralelo de emails
+- **Monitoramento em Tempo Real**: Rastreamento completo do status das campanhas
 
 ---
 
-## ✨ Features
+## Features
 
 ### Gerenciamento de Campanhas
-- ✅ Criar campanhas com validação robusta
-- ✅ Recuperar informações detalhadas de campanhas
-- ✅ Listar campanhas por usuário
-- ✅ Atualizar status em tempo real
-- ✅ Cancelar campanhas pendentes
-- ✅ Deletar campanhas com segurança
+- Criar campanhas com validação robusta
+- Recuperar informações detalhadas de campanhas
+- Listar campanhas por usuário
+- Atualizar status em tempo real
+- Cancelar campanhas pendentes
+- Deletar campanhas com segurança
 
 ### Processamento de Email
-- ✅ Envio em massa via SMTP
-- ✅ Fila de processamento assíncrono
-- ✅ Tratamento automático de falhas
-- ✅ Retry inteligente de campanhas
-- ✅ Logging detalhado de operações
+- Envio em massa via SMTP
+- Fila de processamento assíncrono
+- Tratamento automático de falhas
+- Retry inteligente de campanhas
+- Logging detalhado de operações
 
 ### Segurança
-- ✅ Autenticação via JWT com OpenID Connect
-- ✅ Validação de entrada em todos os endpoints
-- ✅ Tratamento centralizado de erros
-- ✅ Rate limiting e middleware de segurança
-- ✅ Isolamento de dados por usuário
+- Autenticação via JWT com OpenID Connect
+- Validação de entrada em todos os endpoints
+- Tratamento centralizado de erros
+- Rate limiting e middleware de segurança
+- Isolamento de dados por usuário
 
 ### Confiabilidade
-- ✅ Estados bem definidos (Pending, Started, Done, Failed, Canceled, Deleted)
-- ✅ Persistência em PostgreSQL
-- ✅ Transações ACID
-- ✅ Recuperação automática de falhas
-- ✅ Auditoria completa de operações
+- Estados bem definidos (Pending, Started, Done, Failed, Canceled, Deleted)
+- Persistência em PostgreSQL
+- Transações ACID
+- Recuperação automática de falhas
+- Auditoria completa de operações
 
 ---
 
-## 🛠 Stack Tecnológico
+## Stack Tecnológico
 
 ### Backend
 - **[Go 1.25](https://golang.org)** - Linguagem de programação
@@ -84,7 +84,7 @@
 
 ---
 
-## 🏗 Arquitetura
+## Arquitetura
 
 ### Clean Architecture
 
@@ -137,7 +137,7 @@ Update Campaign Status
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Pré-requisitos
 
@@ -209,15 +209,15 @@ go run cmd/api/main.go
 go run cmd/worker/main.go
 ```
 
-✅ **Pronto!** A API estará disponível em `http://localhost:3000`
+**Pronto!** A API estará disponível em `http://localhost:3000`
 
 ---
 
-## 📖 Documentação
+## Documentação
 
 ### Endpoints da API
 
-#### 🔐 Autenticação
+#### Autenticação
 
 ```bash
 # Obter Token JWT
@@ -227,9 +227,9 @@ Content-Type: application/x-www-form-urlencoded
 client_id=emailn&username=usuario@email.com&password=123456&grant_type=password
 ```
 
-#### 📧 Campanhas
+#### Campanhas
 
-##### ✨ Criar Campanha
+##### Criar Campanha
 
 ```http
 POST /campaigns
@@ -256,7 +256,7 @@ Content-Type: application/json
 
 ---
 
-##### 📥 Obter Campanha
+##### Obter Campanha
 
 ```http
 GET /campaigns/{id}
@@ -277,7 +277,7 @@ Authorization: Bearer {token}
 
 ---
 
-##### 🚀 Iniciar Campanha
+##### Iniciar Campanha
 
 ```http
 PATCH /campaigns/start/{id}
@@ -285,12 +285,12 @@ Authorization: Bearer {token}
 ```
 
 **States Transition:**
-- `Pending` → `Started` → `Done` ✅
-- `Pending` → `Started` → `Failed` ❌
+- `Pending` → `Started` → `Done`
+- `Pending` → `Started` → `Failed`
 
 ---
 
-##### 🗑️ Deletar Campanha
+##### Deletar Campanha
 
 ```http
 DELETE /campaigns/delete/{id}
@@ -314,7 +314,7 @@ Authorization: Bearer {token}
 
 ---
 
-## 🧪 Testes
+## Testes
 
 ### Executar Todos os Testes
 
@@ -360,86 +360,6 @@ internal/
 
 ---
 
-## 🔧 Configuração Avançada
-
-### Variáveis de Ambiente Completas
-
-```bash
-# Server
-SERVER_PORT=3000
-SERVER_READ_TIMEOUT=15s
-SERVER_WRITE_TIMEOUT=15s
-
-# Database
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=password
-DB_NAME=emailn_db
-DB_MAX_CONNECTIONS=25
-DB_IDLE_CONNECTIONS=5
-
-# Email
-EMAIL_SMTP=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=seu-email@gmail.com
-EMAIL_PASSWD=sua-senha
-
-# Security
-JWT_SECRET=sua-secret-key-super-segura
-JWT_EXPIRATION=24h
-
-# Logging
-LOG_LEVEL=info
-LOG_FORMAT=json
-
-# Worker
-WORKER_INTERVAL=10s
-WORKER_BATCH_SIZE=10
-```
-
-### Docker Compose
-
-```yaml
-version: '3.8'
-
-services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: emailn_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  api:
-    build: .
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-    environment:
-      - DB_HOST=postgres
-      - DB_NAME=emailn_db
-
-  worker:
-    build: .
-    command: go run cmd/worker/main.go
-    depends_on:
-      - postgres
-    environment:
-      - DB_HOST=postgres
-      - DB_NAME=emailn_db
-
-volumes:
-  postgres_data:
-```
-
----
-
-## 🎓 Exemplos de Uso
 
 ### Exemplo Completo: Criar e Enviar Campanha
 
@@ -472,12 +392,12 @@ curl -s -X GET http://localhost:3000/campaigns/$CAMPAIGN_ID \
 curl -s -X PATCH http://localhost:3000/campaigns/start/$CAMPAIGN_ID \
   -H "Authorization: Bearer $TOKEN"
 
-echo "✅ Campanha iniciada! Status pode ser verificado no banco de dados"
+echo "Campanha iniciada! Status pode ser verificado no banco de dados"
 ```
 
 ---
 
-## 📊 Performance e Escalabilidade
+## Performance e Escalabilidade
 
 ### Benchmarks Típicos
 
@@ -488,150 +408,25 @@ echo "✅ Campanha iniciada! Status pode ser verificado no banco de dados"
 | Listar Campanhas | ~100ms | 10 req/s |
 | Enviar 1000 Emails | ~5s | Assíncrono |
 
-### Otimizações
 
-- ✅ Connection pooling do banco de dados
-- ✅ Índices otimizados no PostgreSQL
-- ✅ Processamento paralelo de emails
-- ✅ Cache de validação de tokens
-- ✅ Paginação automática em listas
-
----
-
-## 🔒 Segurança
+## Segurança
 
 ### Práticas Implementadas
 
-- 🔐 **JWT Signed** com algoritmo HS256
-- 🔐 **Validação de Email** com regex
-- 🔐 **CSRF Protection** via headers
-- 🔐 **SQL Injection Prevention** via parameterized queries (GORM)
-- 🔐 **Input Validation** em todos os campos
-- 🔐 **Error Sanitization** sem expor informações internas
-- 🔐 **HTTPS Ready** (use em produção)
+- **JWT Signed** com algoritmo HS256
+- **Validação de Email** com regex
+- **CSRF Protection** via headers
+- **SQL Injection Prevention** via parameterized queries (GORM)
+- **Input Validation** em todos os campos
+- **Error Sanitization** sem expor informações internas
+- **HTTPS Ready** (use em produção)
 
-### Checklist de Segurança
-
-```bash
-# Antes de deployar:
-- [ ] Alterar JWT_SECRET em produção
-- [ ] Usar HTTPS com certificados válidos
-- [ ] Ativar CORS apenas para domínios confiáveis
-- [ ] Configurar rate limiting
-- [ ] Fazer backup regular do banco de dados
-- [ ] Revisar logs de erro
-- [ ] Testar autenticação com múltiplos usuários
-```
-
----
-
-## 🤝 Contribuir
-
-Adoramos contribuições! Aqui está como você pode ajudar:
-
-### 1. Fork o Repositório
-```bash
-git clone https://github.com/SEU-USUARIO/emailn.git
-cd emailn
-git checkout -b feature/sua-feature
-```
-
-### 2. Faça suas Alterações
-```bash
-# Certifique-se de seguir a arquitetura existente
-# Adicione testes para novas funcionalidades
-go test ./...
-```
-
-### 3. Commit e Push
-```bash
-git add .
-git commit -m "feat: descrição da sua feature"
-git push origin feature/sua-feature
-```
-
-### 4. Abra um Pull Request
-- Descreva claramente o que você mudou
-- Inclua screenshots se relevante
-- Certifique-se que todos os testes passam
-
-### Diretrizes de Contribuição
-
-- 📝 Siga o padrão de código existente
-- 🧪 Adicione testes para 80%+ do código novo
-- 📚 Atualize a documentação conforme necessário
-- 💬 Deixe commits claros e descritivos
-- ⚡ Evite mudanças de estilo sem necessidade
-
----
-
-## 📋 Roadmap
-
-- [ ] Autenticação OAuth 2.0 estendida
-- [ ] Templates de email customizáveis
-- [ ] Análise de métricas (open rate, click rate)
-- [ ] Agendamento de campanhas
-- [ ] Suporte a anexos
-- [ ] A/B Testing
-- [ ] API GraphQL
-- [ ] Dashboard Admin Web
-
----
-
-## 🐛 Reportar Issues
-
-Encontrou um bug? Abra uma issue com:
-
-- 📸 Screenshot ou vídeo do problema
-- 📝 Passos para reproduzir
-- 🖥️ Ambiente (OS, Go version, etc)
-- 💭 Comportamento esperado vs atual
-
----
-
-## 📞 Suporte
-
-- 💬 Discussões: [GitHub Discussions](https://github.com/seu-usuario/emailn/discussions)
-- 🐛 Issues: [GitHub Issues](https://github.com/seu-usuario/emailn/issues)
-- 📧 Email: seu-email@example.com
-
----
-
-## 📄 Licença
-
-Este projeto está licenciado sob a **MIT License** - veja [LICENSE](LICENSE) para detalhes.
-
-```
-MIT License
-
-Copyright (c) 2024 Gabriel Prezzoti
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software...
-```
-
----
-
-## 🙌 Agradecimentos
-
-Construído com ❤️ usando:
-
-- [Go](https://golang.org) - Linguagem
-- [Chi](https://github.com/go-chi/chi) - Routing
-- [GORM](https://gorm.io) - ORM
-- [PostgreSQL](https://www.postgresql.org) - Database
-- [Community](https://github.com) - Open Source
-
----
 
 <div align="center">
 
-**Feito com 💻 por [Seu Nome](https://github.com/seu-usuario)**
+**Feito por [Gabriel Prezzoti](https://github.com/GabrielPrezzoti)**
+**Linkedin: (https://www.linkedin.com/in/gabriel-barros-prezzoti/)**
 
-⭐ Se este projeto foi útil, considere dar uma estrela! ⭐
 
 [Voltar ao topo](#-emailn---email-campaign-management-system)
 
