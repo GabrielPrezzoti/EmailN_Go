@@ -2,35 +2,38 @@ package endpoints
 
 import (
 	"context"
+	"emailn/internal/infrastructure/credentials"
 	"net/http"
-	"os"
 	"strings"
 
-	oidc "github.com/coreos/go-oidc/v3/oidc"
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/go-chi/render"
 )
 
+type ValidateTokenFunc func(token string, ctx context.Context) error
+
+var ValidateToken ValidateTokenFunc = credentials.ValidateToken
+
 func Auth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		tokenString := r.Header.Get("Authorization")
-		if tokenString == "" {
+		authHeader := r.Header.Get("Authorization")
+		if authHeader == "" {
 			render.Status(r, 401)
 			render.JSON(w, r, map[string]string{"error": "request does not contain an authorization header"})
 			return
 		}
 
-		tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
-		provider, err := oidc.NewProvider(r.Context(), os.Getenv("KEYCLOAK"))
-		if err != nil {
-			render.Status(r, 500)
-			render.JSON(w, r, map[string]string{"error": "error to connect the provider"})
-			return
+		// Extract token from "Bearer <token>" format
+		parts := strings.Split(authHeader, " ")
+		var tokenString string
+		if len(parts) == 2 && parts[0] == "Bearer" {
+			tokenString = parts[1]
+		} else {
+			tokenString = authHeader
 		}
 
-		verifier := provider.Verifier(&oidc.Config{ClientID: "emailn"})
-		_, err = verifier.Verify(r.Context(), tokenString)
+		err := ValidateToken(tokenString, r.Context())
 		if err != nil {
 			render.Status(r, 401)
 			render.JSON(w, r, map[string]string{"error": "invalid token"})
