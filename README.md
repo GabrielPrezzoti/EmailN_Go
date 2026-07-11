@@ -9,7 +9,6 @@
 
 **Plataforma robusta, escalável e segura para gerenciamento e disparo de campanhas de email em massa.**
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Documentação](#-documentação) • [Contribuir](#-contribuir)
 
 </div>
 
@@ -18,15 +17,6 @@
 ## Visão Geral
 
 **EmailN** é uma aplicação de backend desenvolvida em **Go** que oferece uma solução completa para gerenciar campanhas de email. Com arquitetura limpa, autenticação robusta e processamento assíncrono, o sistema permite criar, monitorar e executar campanhas de email em massa com eficiência e confiabilidade.
-
-### Por que EmailN?
-
-- **Alta Performance**: Desenvolvido em Go para máxima velocidade e eficiência
-- **Segurança em Primeiro Lugar**: Autenticação JWT e validação rigorosa de dados
-- **Arquitetura Escalável**: Clean Architecture e padrões SOLID
-- **Qualidade Garantida**: Testes unitários abrangentes e bem estruturados
-- **Processamento Assíncrono**: Worker dedicado para envio paralelo de emails
-- **Monitoramento em Tempo Real**: Rastreamento completo do status das campanhas
 
 ---
 
