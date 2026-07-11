@@ -7,6 +7,7 @@ import (
 	internalmock "emailn/internal/test/internal-mock"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -38,7 +39,7 @@ func setUpGetByIdRepositoryBy(campaign *campaign.Campaign) {
 }
 
 func setUpUpdateRepository() {
-	repositoryMock.On("Update", mock.Anything).Return(nil)
+	repositoryMock.On("Update", mock.Anything).Return(nil).Twice()
 }
 
 func setUpSendEmailWithSuccess() {
@@ -181,22 +182,31 @@ func Test_Start_CampaignWasFound_SendEmail(t *testing.T) {
 	setUp()
 	setUpUpdateRepository()
 	setUpGetByIdRepositoryBy(campaignPending)
-	emailWasSent := false
+	emailSentCh := make(chan struct{}, 1)
 	sendMail := func(campaign *campaign.Campaign) error {
 		if campaign.ID == campaignPending.ID {
-			emailWasSent = true
+			select {
+			case emailSentCh <- struct{}{}:
+			default:
+			}
 		}
 		return nil
 	}
 	service.SendMail = sendMail
 
-	service.Start(campaignPending.ID)
+	err := service.Start(campaignPending.ID)
 
-	assert.True(t, emailWasSent)
+	assert.NoError(t, err)
+	select {
+	case <-emailSentCh:
+	case <-time.After(time.Second):
+		t.Fatal("expected email to be sent")
+	}
 }
 
-func Test_Start_SendEmailFailed_ErrInternal(t *testing.T) {
+func Test_Start_SendEmailFailed_StatusIsFailed(t *testing.T) {
 	setUp()
+	setUpUpdateRepository()
 	setUpGetByIdRepositoryBy(campaignPending)
 	sendMail := func(campaign *campaign.Campaign) error {
 		return errors.New("error to send mail")
@@ -205,18 +215,25 @@ func Test_Start_SendEmailFailed_ErrInternal(t *testing.T) {
 
 	err := service.Start(campaignPending.ID)
 
-	assert.Equal(t, internalerrors.ErrInternal.Error(), err.Error())
+	assert.NoError(t, err)
+	assert.Eventually(t, func() bool {
+		return campaignPending.Status == campaign.Fail
+	}, time.Second, 10*time.Millisecond)
 }
 
 func Test_Start_CampaignWasUpdated_StatusIsDone(t *testing.T) {
 	setUp()
 	setUpSendEmailWithSuccess()
 	setUpGetByIdRepositoryBy(campaignPending)
-	repositoryMock.On("Update", mock.MatchedBy(func(campaignToUpdate *campaign.Campaign) bool {
-		return campaignPending.ID == campaignToUpdate.ID && campaignToUpdate.Status == campaign.Done
-	})).Return(nil)
+	repositoryMock.On("Update", mock.Anything).Run(func(args mock.Arguments) {
+		updatedCampaign := args.Get(0).(*campaign.Campaign)
+		assert.Equal(t, campaignPending.ID, updatedCampaign.ID)
+	}).Return(nil).Twice()
 
-	service.Start(campaignPending.ID)
+	err := service.Start(campaignPending.ID)
 
-	assert.Equal(t, campaign.Done, campaignPending.Status)
+	assert.NoError(t, err)
+	assert.Eventually(t, func() bool {
+		return campaignPending.Status == campaign.Done
+	}, time.Second, 10*time.Millisecond)
 }
